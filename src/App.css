@@ -61,11 +61,13 @@ button{
 .output{
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: .5rem;
   max-width: 70vh;
   width: 100%;
+  border: 2px solid white;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 
 }
 .description{

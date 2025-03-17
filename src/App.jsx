@@ -7,13 +7,33 @@ const App = () => {
 
     const [show, setShow] = useState('')
     const [results, setResults] = useState(null)
+    const [loading, setLoading]= useState(false)
+    const [error, setError] = useState(null)
 
 
 async function getProducts(){
-    const res = await fetch(`https://api.tvmaze.com/singlesearch/shows?q= ${show}`)
-    const data = await res.json()
-    console.log(data)
-    setResults(data);
+
+    try {
+        setResults(null);
+        setLoading(true);
+        setError(null);
+        const res = await fetch(`https://api.tvmaze.com/singlesearch/shows?q= ${show}`)
+        if(!res.ok){
+            setShow("");
+            throw new Error('The search is not available');
+        }
+        const data = await res.json()
+        console.log(data)
+        setResults(data);
+        setLoading(false);
+    } catch (error) {
+              
+        setError(error.message);}
+    finally{
+        setLoading(false);
+    }
+
+  
 }
 
 const handleSubmit = (e) => {
@@ -31,7 +51,11 @@ const handleSubmit = (e) => {
             <input type="text" placeholder='Enter Show or Movie Name' onChange={(e) => setShow(e.target.value)} />
             <button type='submit' >Search</button>
         </form>
+        
         <Show show={results} />
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+
     </div>
   )
 }
@@ -41,15 +65,18 @@ export default App
 
 
 function Show({show}){
+
     if(!show){
         return null;
     }
     return(
         <div className='output'>
+            <h1>{show?.name}</h1>
             <div className="imageWrapper">
+            
                 <img src={show?.image?.medium} alt="Show image" />
             </div>
-            <h1>{show?.name}</h1>
+            
             <div className="description">            
             <h3>Genres: {show?.genres.join(',') || "N/A"}</h3>
             <h3>Languages: {show?.language}</h3>
