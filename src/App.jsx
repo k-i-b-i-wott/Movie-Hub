@@ -26,9 +26,10 @@ const handleSubmit = (e) => {
 
   return (
     <div className='container'>
+                <h1>Find the details About Your Favorite Show or Movie</h1>
         <form onSubmit={handleSubmit}>
-            <input type="text" onChange={(e) => setShow(e.target.value)} />
-            <button type='submit'>Search</button>
+            <input type="text" placeholder='Enter Show or Movie Name' onChange={(e) => setShow(e.target.value)} />
+            <button type='submit' >Search</button>
         </form>
         <Show show={results} />
     </div>
@@ -40,6 +41,9 @@ export default App
 
 
 function Show({show}){
+    if(!show){
+        return null;
+    }
     return(
         <div className='output'>
             <div className="imageWrapper">
@@ -47,13 +51,14 @@ function Show({show}){
             </div>
             <h1>{show?.name}</h1>
             <div className="description">            
-            <h3>Genres: {show?.genres}</h3>
+            <h3>Genres: {show?.genres.join(',') || "N/A"}</h3>
             <h3>Languages: {show?.language}</h3>
             <h3>Status: {show?.status}</h3>
             <h3>Time: {show?.schedule?.time}</h3>
             <h3>Country: {show?.network.country?.name}</h3>
             <h3> Type: {show?.type}</h3>
             </div>
+            <h4>Overview</h4>
             <p dangerouslySetInnerHTML={{__html: show?.summary|| 'No summmary'}}>
 
             </p>

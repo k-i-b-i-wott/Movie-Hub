@@ -79,9 +79,9 @@ button{
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 70vh;
+  max-width: 40vh;
   width: 100%;
-  height: 25rem ;
+  height: 20rem ;
   overflow: hidden;
 }
 
